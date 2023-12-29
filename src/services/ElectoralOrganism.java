@@ -1,6 +1,7 @@
 package services;
 
 import data.Nif;
+import exception.*;
 
 /**
  * External services involved in managing the electoral roll
