@@ -1,5 +1,6 @@
 package evoting;
 import data.*;
+import exception.*;
 
 /**
  * Internal classes involved in in the exercise of the vote
@@ -24,5 +25,5 @@ public class VotingKiosk {
     public void confirmVotingOption (char conf) throws ConnectException { }
     // Internal operation, not required
     private void finalizeSession () {  }
- () // Setter methods for injecting dependences and additional methods
+    // Setter methods for injecting dependences and additional methods
 }
