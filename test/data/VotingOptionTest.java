@@ -1,18 +1,19 @@
+package data;
 
-import data.Password;
+import data.VotingOption;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
-public class PasswordTest {
+public class VotingOptionTest {
 
     @Test
-    public void nullPasswordTest(){
+    public void nullVotingOptionTest(){
         NullPointerException exception = assertThrows(NullPointerException.class, () -> {
-            new Password(null);
+            new VotingOption(null);
         });
 
-        assertEquals("Password cannot be null", exception.getMessage());
+        assertEquals("Voting option cannot be null", exception.getMessage());
     }
 }

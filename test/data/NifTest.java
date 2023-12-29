@@ -1,3 +1,5 @@
+package data;
+
 import data.Nif;
 import exception.NifFormatException;
 import org.junit.Test;
