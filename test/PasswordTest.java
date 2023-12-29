@@ -1,4 +1,3 @@
-package test;
 
 import data.Password;
 import org.junit.Test;
