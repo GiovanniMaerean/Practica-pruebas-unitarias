@@ -12,7 +12,7 @@ public class NifTest {
         NullPointerException exception = assertThrows(NullPointerException.class, () -> {
             new Nif(null);
         });
-        
+
         assertEquals("NIF cannot be null", exception.getMessage());
     }
 }
