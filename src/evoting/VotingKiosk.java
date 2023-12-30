@@ -1,5 +1,7 @@
 package evoting;
 import data.*;
+import evoting.biometricdataperipheral.HumanBiometricScanner;
+import evoting.biometricdataperipheral.PassportBiometricReader;
 import exception.*;
 import services.*;
 
@@ -18,6 +20,14 @@ public class VotingKiosk {
     private Password password;
     private Nif nif;
     private VotingOption vopt;
+    private char explicitConsent;
+
+    private BiometricData passportData;
+    private HumanBiometricScanner humanBiometricScanner;
+    private PassportBiometricReader passportBiometricReader;
+    private SingleBiometricData faceData;
+
+    private SingleBiometricData fingerprintData;
 
     // The class members
     // The constructor/s
