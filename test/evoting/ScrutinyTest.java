@@ -60,4 +60,28 @@ public class ScrutinyTest {
         scrutiniy.getScrutinyResults();
     }
 
+    @Test
+    public void scrutinizeBlankVoteTest(){
+        scrutiniy.scrutinize(new VotingOption(""));
+        assertEquals(4, scrutiniy.getBlanks());
+        assertEquals(25, scrutiniy.getTotal());
+
+    }
+
+    @Test
+    public void scrutinizeNullVoteTest(){
+        scrutiniy.scrutinize(null);
+        assertEquals(2, scrutiniy.getNulls());
+        assertEquals(25, scrutiniy.getTotal());
+
+    }
+
+    @Test
+    public void scrutinizeRegularVoteTest(){
+        VotingOption vOpt = new VotingOption("PartyA");
+        scrutiniy.scrutinize(vOpt);
+        assertEquals(5, scrutiniy.getVotesFor(vOpt));
+        assertEquals(26, scrutiniy.getTotal());
+    }
+
 }
