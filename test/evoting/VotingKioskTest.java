@@ -192,4 +192,16 @@ public class VotingKioskTest {
 
         assertEquals(4, votingKiosk.getManualStepCounter());
     }
+
+
+    @Test
+    public void enterNullNifTest() {
+        votingKiosk.setManualStepCounter(4);
+
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+            votingKiosk.enterNif(null);
+        });
+
+        assertEquals("Entered nif cannot be null", exception.getMessage());
+    }
 }
