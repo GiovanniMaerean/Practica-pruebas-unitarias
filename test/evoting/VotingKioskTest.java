@@ -302,6 +302,8 @@ public class VotingKioskTest {
 
     @Test
     public void confirmVOptConnectExceptionTest() {
+        Scrutiny scrutiny = new ScrutinyImpl();
+        votingKiosk.setScrutiny(scrutiny);
         votingKiosk.setManualStepCounter(8);
         NoConnectionElectoralOrganism noConnectElectOrg = new NoConnectionElectoralOrganism();
         votingKiosk.setElectoralOrganism(noConnectElectOrg);
@@ -316,6 +318,8 @@ public class VotingKioskTest {
 
     @Test
     public void confirmedVotingOptionTest() throws ProceduralException, ConnectException {
+        Scrutiny scrutiny = new ScrutinyImpl();
+        votingKiosk.setScrutiny(scrutiny);
         votingKiosk.setManualStepCounter(8);
 
         ElectoralOrganismImpl electoralOrganism = new ElectoralOrganismImpl();
