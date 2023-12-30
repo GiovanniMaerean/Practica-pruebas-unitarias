@@ -300,4 +300,20 @@ public class VotingKioskTest {
         assertEquals("Consulted voting option cannot be null", exception.getMessage());
     }
 
+    @Test
+    public void confirmVOptConnectExceptionTest() {
+        votingKiosk.setManualStepCounter(8);
+        NoConnectionElectoralOrganism noConnectElectOrg = new NoConnectionElectoralOrganism();
+        votingKiosk.setElectoralOrganism(noConnectElectOrg);
+
+        ConnectException exception = assertThrows(ConnectException.class, () -> {
+            votingKiosk.confirmVotingOption('Y');
+        });
+
+        assertEquals("There is no connection", exception.getMessage());
+    }
+
+
+
+
 }

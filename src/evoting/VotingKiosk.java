@@ -7,7 +7,7 @@ import services.*;
  * Internal classes involved in the exercise of the vote
  */
 public class VotingKiosk {
-    
+
     private int manualStepCounter = 0;
     LocalService localService;
     ElectoralOrganism electoralOrganism;
@@ -120,7 +120,7 @@ public class VotingKiosk {
         if (manualStepCounter == 8) {
             if(conf == 'Y'){
                 System.out.println("Voting option: "+ this.vopt + " .Confirmed");
-                scrutiny.scrutinize(vopt);
+                //scrutiny.scrutinize(vopt);
                 electoralOrganism.disableVoter(nif);
                 manualStepCounter++;
                 finalizeSession();
@@ -137,7 +137,7 @@ public class VotingKiosk {
         System.out.println("Finalizing session");
     }
     // Setter methods for injecting dependences and additional methods
-    
+
 
     public void setManualStepCounter(int num){this.manualStepCounter = num;}
     public int getManualStepCounter(){
@@ -146,5 +146,5 @@ public class VotingKiosk {
     public void setLocalService(LocalService localService) {this.localService = localService;}
 
     public void setElectoralOrganism(ElectoralOrganism electoralOrganism) {this.electoralOrganism = electoralOrganism;}
-    
+
 }
