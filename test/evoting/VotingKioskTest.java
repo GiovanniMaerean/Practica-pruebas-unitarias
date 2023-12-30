@@ -182,4 +182,14 @@ public class VotingKioskTest {
         assertEquals("Document is not valid", exception.getMessage());
 
     }
+
+
+    @Test
+    public void confirmValidIdentifTest() throws ProceduralException, InvalidDNIDocumException {
+        votingKiosk.setManualStepCounter(3);
+
+        votingKiosk.confirmIdentif('V');
+
+        assertEquals(4, votingKiosk.getManualStepCounter());
+    }
 }
