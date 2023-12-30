@@ -41,7 +41,6 @@ public class VotingKiosk {
             } else if (opt == 'P') {
                 //biometrico
 
-                manualStepCounter++;
             }
         } else {
             throw new ProceduralException("SetDocument doesn't belong to the actual step");

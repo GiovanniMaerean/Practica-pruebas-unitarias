@@ -72,7 +72,7 @@ public class VotingKioskTest {
         } catch (ProceduralException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(votingKiosk.getManualStepCounter(), 2);
+        assertEquals(2, votingKiosk.getManualStepCounter());
     }
     @Test
     public void checkCorrectOptionForDocumentNIF(){
@@ -83,8 +83,18 @@ public class VotingKioskTest {
         } catch (ProceduralException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(votingKiosk.getManualStepCounter(), 2);
+        assertEquals(2, votingKiosk.getManualStepCounter());
     }
+    @Test
+    public void checkCorrectOptionForDocumentPassport(){
 
+        votingKiosk.setManualStepCounter(1);
+        try {
+            votingKiosk.setDocument('P');
+        } catch (ProceduralException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(1, votingKiosk.getManualStepCounter());
+    }
 
 }
