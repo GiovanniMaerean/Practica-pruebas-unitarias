@@ -24,16 +24,17 @@ public class VotingKiosk {
     // Input events
     public VotingKiosk(){}
     public void initVoting () throws ProceduralException {
-        if (manualStepCounter == 0) {
+        if (manualStepCounter == 0  || biometricStepCounter == 0) {
             System.out.println("E-Voting functionality was selected");
             System.out.println("Select a type of Document for identification");
             manualStepCounter++;
+            biometricStepCounter++;
         } else {
             throw new ProceduralException("InitVoting doesn't belong to the actual step");
         }
     }
     public void setDocument (char opt) throws ProceduralException {
-        if (manualStepCounter == 1) {
+        if (manualStepCounter == 1  || biometricStepCounter == 1) {
             this.document = opt;
             if (opt == 'N' || opt == 'D') {
                 //manual
@@ -41,8 +42,7 @@ public class VotingKiosk {
                 manualStepCounter++;
             } else if (opt == 'P') {
                 //biometrico
-
-            }
+                biometricStepCounter++;            }
         } else {
             throw new ProceduralException("SetDocument doesn't belong to the actual step");
         }
@@ -88,54 +88,134 @@ public class VotingKiosk {
         }
     }
     public void initOptionsNavigation () throws ProceduralException {
-        if (manualStepCounter == 5) {
+        if (manualStepCounter == 5 || biometricStepCounter == 8) {
             System.out.println("Showing menus and voting options");
             manualStepCounter++;
+            biometricStepCounter++;
         } else {
             throw new ProceduralException("InitOptionsNavigation doesn't belong to the actual step");
         }
     }
     public void consultVotingOption (VotingOption vopt) throws NullPointerException, ProceduralException{
-        if (manualStepCounter == 6) {
+        if (manualStepCounter == 6 || biometricStepCounter == 9) {
             if (vopt ==  null){
                 throw new NullPointerException("Consulted voting option cannot be null");
             }
             this.vopt = vopt;
             System.out.println("Showing vote info");
             manualStepCounter++;
+            biometricStepCounter++;
         } else {
             throw new ProceduralException("ConsultVotingOption doesn't belong to the actual step");
         }
     }
     public void vote () throws ProceduralException{
-        if (manualStepCounter == 7) {
+        if (manualStepCounter == 7 || biometricStepCounter == 10) {
             System.out.println("Select one of the parties to vote");
             System.out.println("Confirm your vote");
             manualStepCounter++;
+            biometricStepCounter++;
         } else {
             throw new ProceduralException("Vote doesn't belong to the actual step");
         }
     }
 
     public void confirmVotingOption (char conf) throws ProceduralException ,ConnectException {
-        if (manualStepCounter == 8) {
+        if (manualStepCounter == 8 || biometricStepCounter == 11) {
             if(conf == 'Y'){
                 System.out.println("Voting option: "+ this.vopt + " .Confirmed");
                 scrutiny.scrutinize(vopt);
                 electoralOrganism.disableVoter(nif);
                 manualStepCounter++;
+                biometricStepCounter++;
                 finalizeSession();
             }
             else if(conf =='N'){
                 manualStepCounter -=2;
+                biometricStepCounter -=2;
             }
         } else {
             throw new ProceduralException("ConfirmVotingOption doesn't belong to the actual step");
         }
+
     }
     // Internal operation, not required
     private void finalizeSession () {
         System.out.println("Finalizing session");
+    }
+
+
+    public void verifiyBiometricData(BiometricData humanBioD, BiometricData passpBioD) throws BiometricVerificationFailedException, ProceduralException {
+        if (biometricStepCounter == 6) {
+            boolean verificationSucceeded = humanBioD.equals(passpBioD);
+
+            if (!verificationSucceeded) {
+                throw new BiometricVerificationFailedException("Human biometric data doesn't match with passport biometric data");
+            } else {
+                System.out.println("Biometric data verification succeeded");
+                biometricStepCounter++;
+            }
+        } else {
+            throw new ProceduralException("VerifiyBiometricData doesn't belong to the actual step");
+        }
+
+    }
+
+    public void removeBiometricData () throws ProceduralException{
+        if (biometricStepCounter == 7) {
+            passportData = null;
+            biometricStepCounter++;
+        } else {
+            throw new ProceduralException("RemoveBiometricData doesn't belong to the actual step");
+        }
+    }
+
+    public void grantExplicitConsent (char cons) throws ProceduralException{
+        explicitConsent = cons;
+        if (biometricStepCounter == 2) {
+            if (cons == 'Y') {
+                //manual
+                System.out.println("Consent granted");
+                biometricStepCounter++;
+            } else if (cons == 'N') {
+                //biometrico
+                System.out.println("Consent not granted");
+                //manualStepCounter++;
+            }
+        } else {
+            throw new ProceduralException("GrantExplicitConsent doesn't belong to the actual step");
+        }
+    }
+
+    public void readPassport () throws NotValidPassportException, PassportBiometricReadingException, ProceduralException {
+        if (biometricStepCounter == 3) {
+            passportBiometricReader.validatePassport();
+            passportBiometricReader.getPassportBiometricData();
+            Nif voterNif = passportBiometricReader.getNifWithOCR();
+
+            biometricStepCounter++;
+        } else {
+            throw new ProceduralException("ReadPassport doesn't belong to the actual step");
+        }
+    }
+
+    public void readFaceBiometrics () throws HumanBiometricScanningException, ProceduralException {
+        if (biometricStepCounter == 4) {
+            faceData = humanBiometricScanner.scanFaceBiometrics();
+            biometricStepCounter++;
+        } else {
+            throw new ProceduralException("ReadFaceBiometrics doesn't belong to the actual step");
+        }
+
+    }
+
+    public void readFingerPrintBiometrics () throws NotEnabledException, HumanBiometricScanningException, BiometricVerificationFailedException, ConnectException, ProceduralException {
+        if (biometricStepCounter == 5) {
+            fingerprintData = humanBiometricScanner.scanFingerprintBiometrics();
+            biometricStepCounter++;
+        } else {
+            throw new ProceduralException("ReadFingerPrintBiometrics doesn't belong to the actual step");
+        }
     }
     // Setter methods for injecting dependences and additional methods
 
