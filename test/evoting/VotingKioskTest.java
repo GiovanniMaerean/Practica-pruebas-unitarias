@@ -264,4 +264,14 @@ public class VotingKioskTest {
         assertEquals(5, votingKiosk.getManualStepCounter());
 
     }
+
+    @Test
+    public void nullConsultVotingOption() {
+        votingKiosk.setManualStepCounter(6);
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+            votingKiosk.consultVotingOption(null);
+        });
+
+        assertEquals("Consulted voting option cannot be null", exception.getMessage());
+    }
 }

@@ -23,4 +23,7 @@ final public class Password {
         Password pw = (Password) o;
         return supportPassword.equals(pw.supportPassword);
     }
+
+    @Override
+    public int hashCode () { return supportPassword.hashCode(); }
 }
