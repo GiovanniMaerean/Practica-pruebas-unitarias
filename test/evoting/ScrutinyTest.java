@@ -28,4 +28,21 @@ public class ScrutinyTest {
         assertEquals(0, scrutiniy.getVotesFor(votingOptions.get(1)));
 
     }
+
+    @Test
+    public void getNullVotesTest(){
+        assertEquals(1, scrutiniy.getNulls());
+
+    }
+
+    @Test
+    public void getBlankVotesTest(){
+        assertEquals(3, scrutiniy.getBlanks());
+    }
+
+    @Test
+    public void getTotalVotesTest(){
+        assertEquals(25, scrutiniy.getTotal());
+    }
+
 }
