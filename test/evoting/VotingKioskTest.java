@@ -4,11 +4,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import exception.*;
 import data.*;
+import services.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
+
 public class VotingKioskTest {
     private VotingKiosk votingKiosk;
+
+    public static class InvalidLocalService extends LocalServiceImpl {
+        @Override
+        public void verifyAccount (String login, Password pssw) throws InvalidAccountException{
+            throw new InvalidAccountException("Invalid Account");
+        }
+    }
     @BeforeEach
     public void crearVotingKiosk(){
         votingKiosk = new VotingKiosk();
@@ -119,5 +128,57 @@ public class VotingKioskTest {
         });
 
         assertEquals("User name and password cannot be null", exception.getMessage());
+    }
+
+    @Test
+    public void enterAccountThrowsExceptionTest() {
+        votingKiosk.setManualStepCounter(2);
+        InvalidLocalService invalidLocalService = new InvalidLocalService();
+        votingKiosk.setLocalService(invalidLocalService);
+
+        InvalidAccountException exception = assertThrows(InvalidAccountException.class,() -> {
+            votingKiosk.enterAccount("", new Password(""));
+        });
+        assertEquals("Invalid Account", exception.getMessage());
+    }
+
+    @Test
+    public void enterAccountInvalidLoginTest() {
+        votingKiosk.setManualStepCounter(2);
+        LocalServiceImpl localService = new LocalServiceImpl();
+        votingKiosk.setLocalService(localService);
+
+        InvalidAccountException exception = assertThrows(InvalidAccountException.class,() -> {
+            votingKiosk.enterAccount("miguel", new Password("123"));
+        });
+        assertEquals("Invalid Account", exception.getMessage());
+    }
+
+    @Test
+    public void enterAccountInvalidPasswordTest() {
+        votingKiosk.setManualStepCounter(2);
+        LocalServiceImpl localService = new LocalServiceImpl();
+        votingKiosk.setLocalService(localService);
+
+        InvalidAccountException exception = assertThrows(InvalidAccountException.class,() -> {
+            votingKiosk.enterAccount("francis", new Password("juanjo88"));
+        });
+        assertEquals("Invalid Account", exception.getMessage());
+    }
+
+    @Test
+    public void enterValidAccountTest() {
+        votingKiosk.setManualStepCounter(2);
+        LocalServiceImpl localService = new LocalServiceImpl();
+        votingKiosk.setLocalService(localService);
+
+        try {
+            votingKiosk.enterAccount("francis", new Password("tobby22"));
+        } catch (ProceduralException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidAccountException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(3, votingKiosk.getManualStepCounter());
     }
 }

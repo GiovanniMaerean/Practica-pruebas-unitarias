@@ -142,4 +142,5 @@ public class VotingKiosk {
     public int getManualStepCounter(){
         return manualStepCounter;
     }
+    public void setLocalService(LocalService localService) {this.localService = localService;}
 }
