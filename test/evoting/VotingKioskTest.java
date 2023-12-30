@@ -345,4 +345,72 @@ public class VotingKioskTest {
         assertEquals(6, votingKiosk.getManualStepCounter());
     }
 
+    @Test
+    public void proceduralExceptionBiometricTest () {
+
+        votingKiosk.setManualStepCounter(-1);
+        votingKiosk.setBiometricStepCounter(-1);
+
+        ProceduralException exception = assertThrows(ProceduralException.class, votingKiosk::initVoting);
+        assertEquals("InitVoting doesn't belong to the actual step", exception.getMessage());
+
+        exception = assertThrows(ProceduralException.class, () -> {
+            votingKiosk.setDocument('P');
+        });
+        assertEquals("SetDocument doesn't belong to the actual step", exception.getMessage());
+
+        exception = assertThrows(ProceduralException.class, () -> {
+            votingKiosk.grantExplicitConsent('Y');
+        });
+        assertEquals("GrantExplicitConsent doesn't belong to the actual step", exception.getMessage());
+
+        exception = assertThrows(ProceduralException.class, () -> {
+            votingKiosk.readPassport();
+        });
+        assertEquals("ReadPassport doesn't belong to the actual step", exception.getMessage());
+
+        exception = assertThrows(ProceduralException.class, () -> {
+            votingKiosk.readFaceBiometrics();
+        });
+        assertEquals("ReadFaceBiometrics doesn't belong to the actual step", exception.getMessage());
+
+        exception = assertThrows(ProceduralException.class, () -> {
+            votingKiosk.readFingerPrintBiometrics();
+        });
+        assertEquals("ReadFingerPrintBiometrics doesn't belong to the actual step", exception.getMessage());
+
+        byte[] facialData = {5,15,25,35};
+        byte[] fingerData = {10,20,30,40};
+        BiometricData passportData = new BiometricData(new SingleBiometricData(facialData), new SingleBiometricData(fingerData));
+        BiometricData humanData = new BiometricData(new SingleBiometricData(facialData), new SingleBiometricData(fingerData));
+        exception = assertThrows(ProceduralException.class, () -> {
+            votingKiosk.verifiyBiometricData(passportData, humanData);
+        });
+        assertEquals("VerifiyBiometricData doesn't belong to the actual step", exception.getMessage());
+
+
+        exception = assertThrows(ProceduralException.class, () -> {
+            votingKiosk.removeBiometricData();
+        });
+        assertEquals("RemoveBiometricData doesn't belong to the actual step", exception.getMessage());
+
+        exception = assertThrows(ProceduralException.class, votingKiosk::initOptionsNavigation);
+        assertEquals("InitOptionsNavigation doesn't belong to the actual step", exception.getMessage());
+
+
+        exception = assertThrows(ProceduralException.class, () -> {
+            votingKiosk.consultVotingOption(new VotingOption(""));
+        });
+        assertEquals("ConsultVotingOption doesn't belong to the actual step", exception.getMessage());
+
+
+        exception = assertThrows(ProceduralException.class, votingKiosk::vote);
+        assertEquals("Vote doesn't belong to the actual step", exception.getMessage());
+
+        exception = assertThrows(ProceduralException.class, () -> {
+            votingKiosk.confirmVotingOption('Y');
+        });
+        assertEquals("ConfirmVotingOption doesn't belong to the actual step", exception.getMessage());
+    }
+
 }
