@@ -9,6 +9,7 @@ import services.*;
 public class VotingKiosk {
 
     private int manualStepCounter = 0;
+    private int biometricStepCounter = 0;
     LocalService localService;
     ElectoralOrganism electoralOrganism;
     Scrutiny scrutiny;
@@ -140,6 +141,8 @@ public class VotingKiosk {
 
 
     public void setManualStepCounter(int num){this.manualStepCounter = num;}
+    public void setBiometricStepCounter(int num){this.biometricStepCounter = num;}
+
     public int getManualStepCounter(){
         return manualStepCounter;
     }
