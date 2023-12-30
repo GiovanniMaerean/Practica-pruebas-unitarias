@@ -140,5 +140,7 @@ public class VotingKiosk {
     // Setter methods for injecting dependences and additional methods
 
     public void setManualStepCounter(int num){this.manualStepCounter = num;}
-
+    public int getManualStepCounter(){
+        return manualStepCounter;
+    }
 }

@@ -1,5 +1,6 @@
 package evoting;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import exception.*;
 import data.*;
@@ -7,6 +8,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 public class VotingKioskTest {
+    private VotingKiosk votingKiosk;
+    @BeforeEach
+    public void crearVotingKiosk(){
+        votingKiosk = new VotingKiosk();
+    }
     @Test
     public void proceduralExceptionTest () {
         VotingKiosk vk = new VotingKiosk();
@@ -57,5 +63,17 @@ public class VotingKioskTest {
         });
         assertEquals("ConfirmVotingOption doesn't belong to the actual step", exception.getMessage());
     }
+    @Test
+    public void checkCorrectOptionForDocumentDNI(){
+
+        votingKiosk.setManualStepCounter(1);
+        try {
+            votingKiosk.setDocument('D');
+        } catch (ProceduralException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(votingKiosk.getManualStepCounter(), 2);
+    }
+
 
 }
