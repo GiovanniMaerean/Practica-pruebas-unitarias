@@ -225,4 +225,18 @@ public class VotingKioskTest {
 
         assertEquals("Voter not enabled", exception.getMessage());
     }
+
+    @Test
+    public void nifNotInElecCollegeTest() {
+        votingKiosk.setManualStepCounter(4);
+        ElectoralOrganismImpl electoralOrganism = new ElectoralOrganismImpl();
+        votingKiosk.setElectoralOrganism(electoralOrganism);
+
+        NotEnabledException exception = assertThrows(NotEnabledException.class, () -> {
+            votingKiosk.enterNif(new Nif("11111111Z"));
+        });
+
+        assertEquals("Nif is not on the electoral college", exception.getMessage());
+
+    }
 }
