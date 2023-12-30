@@ -138,4 +138,7 @@ public class VotingKiosk {
         System.out.println("Finalizing session");
     }
     // Setter methods for injecting dependences and additional methods
+
+    public void setManualStepCounter(int num){this.manualStepCounter = num;}
+
 }
