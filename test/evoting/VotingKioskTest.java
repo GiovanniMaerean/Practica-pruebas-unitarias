@@ -15,51 +15,51 @@ public class VotingKioskTest {
     }
     @Test
     public void proceduralExceptionTest () {
-        VotingKiosk vk = new VotingKiosk();
-        vk.setManualStepCounter(-1);
 
-        ProceduralException exception = assertThrows(ProceduralException.class, vk::initVoting);
+        votingKiosk.setManualStepCounter(-1);
+
+        ProceduralException exception = assertThrows(ProceduralException.class, votingKiosk::initVoting);
         assertEquals("InitVoting doesn't belong to the actual step", exception.getMessage());
 
         exception = assertThrows(ProceduralException.class, () -> {
-            vk.setDocument('N');
+            votingKiosk.setDocument('N');
         });
         assertEquals("SetDocument doesn't belong to the actual step", exception.getMessage());
 
 
         exception = assertThrows(ProceduralException.class, () -> {
-            vk.enterAccount("Fernando", new Password("1234"));
+            votingKiosk.enterAccount("Fernando", new Password("1234"));
         });
         assertEquals("EnterAccount doesn't belong to the actual step", exception.getMessage());
 
 
         exception = assertThrows(ProceduralException.class, () -> {
-            vk.confirmIdentif('Y');
+            votingKiosk.confirmIdentif('Y');
         });
         assertEquals("ConfirmIdentif doesn't belong to the actual step", exception.getMessage());
 
 
         exception = assertThrows(ProceduralException.class, () -> {
-            vk.enterNif(new Nif("12345678B"));
+            votingKiosk.enterNif(new Nif("12345678B"));
         });
         assertEquals("EnterNif doesn't belong to the actual step", exception.getMessage());
 
 
-        exception = assertThrows(ProceduralException.class, vk::initOptionsNavigation);
+        exception = assertThrows(ProceduralException.class, votingKiosk::initOptionsNavigation);
         assertEquals("InitOptionsNavigation doesn't belong to the actual step", exception.getMessage());
 
 
         exception = assertThrows(ProceduralException.class, () -> {
-            vk.consultVotingOption(new VotingOption(""));
+            votingKiosk.consultVotingOption(new VotingOption(""));
         });
         assertEquals("ConsultVotingOption doesn't belong to the actual step", exception.getMessage());
 
 
-        exception = assertThrows(ProceduralException.class, vk::vote);
+        exception = assertThrows(ProceduralException.class, votingKiosk::vote);
         assertEquals("Vote doesn't belong to the actual step", exception.getMessage());
 
         exception = assertThrows(ProceduralException.class, () -> {
-            vk.confirmVotingOption('Y');
+            votingKiosk.confirmVotingOption('Y');
         });
         assertEquals("ConfirmVotingOption doesn't belong to the actual step", exception.getMessage());
     }
@@ -96,5 +96,28 @@ public class VotingKioskTest {
         }
         assertEquals(1, votingKiosk.getManualStepCounter());
     }
+    @Test
+    public void nullAccountAttributesTest() {
+        votingKiosk.setManualStepCounter(2);
 
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+            votingKiosk.enterAccount(null, null);
+        });
+
+
+        assertEquals("User name and password cannot be null", exception.getMessage());
+
+        exception = assertThrows(NullPointerException.class, () -> {
+            votingKiosk.enterAccount("", null);
+        });
+
+
+        assertEquals("User name and password cannot be null", exception.getMessage());
+
+        exception = assertThrows(NullPointerException.class, () -> {
+            votingKiosk.enterAccount(null, null);
+        });
+
+        assertEquals("User name and password cannot be null", exception.getMessage());
+    }
 }
