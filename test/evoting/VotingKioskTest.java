@@ -73,36 +73,30 @@ public class VotingKioskTest {
         assertEquals("ConfirmVotingOption doesn't belong to the actual step", exception.getMessage());
     }
     @Test
-    public void checkCorrectOptionForDocumentDNI(){
+    public void checkCorrectOptionForDocumentDNI() throws ProceduralException{
 
         votingKiosk.setManualStepCounter(1);
-        try {
-            votingKiosk.setDocument('D');
-        } catch (ProceduralException e) {
-            throw new RuntimeException(e);
-        }
+
+        votingKiosk.setDocument('D');
+
         assertEquals(2, votingKiosk.getManualStepCounter());
     }
     @Test
-    public void checkCorrectOptionForDocumentNIF(){
+    public void checkCorrectOptionForDocumentNIF() throws ProceduralException{
 
         votingKiosk.setManualStepCounter(1);
-        try {
-            votingKiosk.setDocument('N');
-        } catch (ProceduralException e) {
-            throw new RuntimeException(e);
-        }
+
+        votingKiosk.setDocument('N');
+
         assertEquals(2, votingKiosk.getManualStepCounter());
     }
     @Test
-    public void checkCorrectOptionForDocumentPassport(){
+    public void checkCorrectOptionForDocumentPassport() throws ProceduralException{
 
         votingKiosk.setManualStepCounter(1);
-        try {
-            votingKiosk.setDocument('P');
-        } catch (ProceduralException e) {
-            throw new RuntimeException(e);
-        }
+
+        votingKiosk.setDocument('P');
+
         assertEquals(1, votingKiosk.getManualStepCounter());
     }
     @Test
@@ -167,18 +161,13 @@ public class VotingKioskTest {
     }
 
     @Test
-    public void enterValidAccountTest() {
+    public void enterValidAccountTest() throws ProceduralException, InvalidAccountException{
         votingKiosk.setManualStepCounter(2);
         LocalServiceImpl localService = new LocalServiceImpl();
         votingKiosk.setLocalService(localService);
 
-        try {
-            votingKiosk.enterAccount("francis", new Password("tobby22"));
-        } catch (ProceduralException e) {
-            throw new RuntimeException(e);
-        } catch (InvalidAccountException e) {
-            throw new RuntimeException(e);
-        }
+        votingKiosk.enterAccount("francis", new Password("tobby22"));
+
         assertEquals(3, votingKiosk.getManualStepCounter());
     }
 }
