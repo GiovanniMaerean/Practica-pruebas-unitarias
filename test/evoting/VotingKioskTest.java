@@ -74,6 +74,17 @@ public class VotingKioskTest {
         }
         assertEquals(votingKiosk.getManualStepCounter(), 2);
     }
+    @Test
+    public void checkCorrectOptionForDocumentNIF(){
+
+        votingKiosk.setManualStepCounter(1);
+        try {
+            votingKiosk.setDocument('N');
+        } catch (ProceduralException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(votingKiosk.getManualStepCounter(), 2);
+    }
 
 
 }
