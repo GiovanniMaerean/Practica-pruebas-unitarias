@@ -18,6 +18,7 @@ public class VotingKioskTest {
             throw new InvalidAccountException("Invalid Account");
         }
     }
+
     @BeforeEach
     public void crearVotingKiosk(){
         votingKiosk = new VotingKiosk();
@@ -204,4 +205,6 @@ public class VotingKioskTest {
 
         assertEquals("Entered nif cannot be null", exception.getMessage());
     }
+
+
 }

@@ -5,7 +5,7 @@ import exception.*;
 final public class Nif {
     String voterNif;
     //provisional
-    private boolean alreadyVoted = false;
+
     //
     public Nif(String nif) throws NullPointerException, NifFormatException {
         if (nif == null) {
@@ -34,10 +34,4 @@ final public class Nif {
         return nif.matches("\\d{8}[A-Za-z]");
     }
 
-    public void setAlreadyVoted(boolean alreadyVoted){
-        this.alreadyVoted = alreadyVoted;
-    }
-    public boolean getAlreadyVoted(){
-        return this.alreadyVoted;
-    }
 }
