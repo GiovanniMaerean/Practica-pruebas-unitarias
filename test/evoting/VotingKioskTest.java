@@ -26,6 +26,18 @@ public class VotingKioskTest {
         }
     }
 
+    public static class NoConnectionElectoralOrganism extends ElectoralOrganismImpl{
+        @Override
+        public void canVote(Nif nif) throws NotEnabledException, ConnectException {
+            throw new ConnectException("There is no connection");
+        }
+
+        @Override
+        public void disableVoter(Nif nif) throws ConnectException {
+            throw new ConnectException("There is no connection");
+        }
+    }
+
     @BeforeEach
     public void crearVotingKiosk(){
         votingKiosk = new VotingKiosk();
@@ -227,6 +239,19 @@ public class VotingKioskTest {
     }
 
     @Test
+    public void enterNifConnectExceptionTest() {
+        votingKiosk.setManualStepCounter(4);
+        NoConnectionElectoralOrganism noConnectElectOrg = new NoConnectionElectoralOrganism();
+        votingKiosk.setElectoralOrganism(noConnectElectOrg);
+
+        ConnectException exception = assertThrows(ConnectException.class, () -> {
+           votingKiosk.enterNif(new Nif("11111111A"));
+        });
+
+        assertEquals("There is no connection", exception.getMessage());
+    }
+
+    @Test
     public void nifNotInElecCollegeTest() {
         votingKiosk.setManualStepCounter(4);
         ElectoralOrganismImpl electoralOrganism = new ElectoralOrganismImpl();
@@ -274,4 +299,5 @@ public class VotingKioskTest {
 
         assertEquals("Consulted voting option cannot be null", exception.getMessage());
     }
+
 }

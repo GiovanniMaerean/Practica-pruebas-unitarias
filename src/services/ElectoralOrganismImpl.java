@@ -29,28 +29,30 @@ public class ElectoralOrganismImpl implements ElectoralOrganism{
 
         }
     };
+    private boolean isConnection = true;
 
-    private boolean containsKey(Nif nif) {
-        for (Nif collegeNif : electoralCollege.keySet()){
-            if (nif.equals(collegeNif)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     public void canVote(Nif nif) throws NotEnabledException, ConnectException {
-        if (containsKey(nif)){
-            if (!electoralCollege.get(nif)) {
-                throw new NotEnabledException("Voter has already voted");
+        
+        if (isConnection) {
+            if (electoralCollege.containsKey(nif)) {
+                if (!electoralCollege.get(nif)) {
+                    throw new NotEnabledException("Voter has already voted");
+                }
+            } else {
+                throw new NotEnabledException("Nif is not on the electoral college");
             }
-        } else {
-            throw new NotEnabledException("Nif is not on the electoral college");
+        }else {
+            throw new ConnectException("There is no connection");
         }
     }
 
     public void disableVoter(Nif nif) throws ConnectException{
-        electoralCollege.put(nif, false);
+        if (isConnection) {
+            electoralCollege.put(nif, false);
+        } else {
+            throw new ConnectException("There is no connection");
+        }
     }
+    
 }
