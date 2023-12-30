@@ -170,4 +170,16 @@ public class VotingKioskTest {
 
         assertEquals(3, votingKiosk.getManualStepCounter());
     }
+
+    @Test
+    public void confirmInvalidIdentifTest() {
+        votingKiosk.setManualStepCounter(3);
+
+        InvalidDNIDocumException exception = assertThrows(InvalidDNIDocumException.class, () -> {
+            votingKiosk.confirmIdentif('I');
+        });
+
+        assertEquals("Document is not valid", exception.getMessage());
+
+    }
 }
