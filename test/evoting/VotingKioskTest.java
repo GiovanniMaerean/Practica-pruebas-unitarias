@@ -317,14 +317,25 @@ public class VotingKioskTest {
     @Test
     public void confirmedVotingOptionTest() throws ProceduralException, ConnectException {
         votingKiosk.setManualStepCounter(8);
-        
+
         ElectoralOrganismImpl electoralOrganism = new ElectoralOrganismImpl();
         votingKiosk.setElectoralOrganism(electoralOrganism);
-        
+
         votingKiosk.confirmVotingOption('Y');
-        
+
         assertEquals(9, votingKiosk.getManualStepCounter());
     }
 
+    @Test
+    public void notConfirmedVotingOptionTest() throws ProceduralException, ConnectException {
+        votingKiosk.setManualStepCounter(8);
+
+        ElectoralOrganismImpl electoralOrganism = new ElectoralOrganismImpl();
+        votingKiosk.setElectoralOrganism(electoralOrganism);
+
+        votingKiosk.confirmVotingOption('N');
+
+        assertEquals(6, votingKiosk.getManualStepCounter());
+    }
 
 }
