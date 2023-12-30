@@ -252,4 +252,16 @@ public class VotingKioskTest {
 
         assertEquals("Voter has already voted", exception.getMessage());
     }
+
+    @Test
+    public void voterCanVote() throws NifFormatException, ProceduralException, NotEnabledException, ConnectException {
+        votingKiosk.setManualStepCounter(4);
+        ElectoralOrganismImpl electoralOrganism = new ElectoralOrganismImpl();
+        votingKiosk.setElectoralOrganism(electoralOrganism);
+
+        votingKiosk.enterNif(new Nif("55555555C"));
+
+        assertEquals(5, votingKiosk.getManualStepCounter());
+
+    }
 }
