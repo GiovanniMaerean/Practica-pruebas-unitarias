@@ -19,6 +19,13 @@ public class VotingKioskTest {
         }
     }
 
+    public static class NotEnabledElectoralOrganism extends ElectoralOrganismImpl {
+        @Override
+        public void canVote(Nif nif)  throws NotEnabledException, ConnectException {
+            throw new NotEnabledException("Voter not enabled");
+        }
+    }
+
     @BeforeEach
     public void crearVotingKiosk(){
         votingKiosk = new VotingKiosk();
@@ -206,5 +213,16 @@ public class VotingKioskTest {
         assertEquals("Entered nif cannot be null", exception.getMessage());
     }
 
+    @Test
+    public void notEnabledExceptionTest() {
+        votingKiosk.setManualStepCounter(4);
+        NotEnabledElectoralOrganism notEnabledElecOrg = new NotEnabledElectoralOrganism();
+        votingKiosk.setElectoralOrganism(notEnabledElecOrg);
 
+        NotEnabledException exception = assertThrows(NotEnabledException.class, () -> {
+            votingKiosk.enterNif(new Nif("11111111A"));
+        });
+
+        assertEquals("Voter not enabled", exception.getMessage());
+    }
 }

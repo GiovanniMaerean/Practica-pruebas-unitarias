@@ -143,4 +143,6 @@ public class VotingKiosk {
         return manualStepCounter;
     }
     public void setLocalService(LocalService localService) {this.localService = localService;}
+
+    public void setElectoralOrganism(ElectoralOrganism electoralOrganism) {this.electoralOrganism = electoralOrganism;}
 }
