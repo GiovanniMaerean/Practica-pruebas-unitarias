@@ -45,4 +45,19 @@ public class ScrutinyTest {
         assertEquals(25, scrutiniy.getTotal());
     }
 
+    @Test
+    public void getVotesForSpecificPartyTest(){
+        assertEquals(4, scrutiniy.getVotesFor(new VotingOption("PartyA")));
+        assertEquals(5, scrutiniy.getVotesFor(new VotingOption("PartyB")));
+        assertEquals(2, scrutiniy.getVotesFor(new VotingOption("PartyC")));
+        assertEquals(8, scrutiniy.getVotesFor(new VotingOption("PartyD")));
+        assertEquals(6, scrutiniy.getVotesFor(new VotingOption("PartyE")));
+
+    }
+
+    @Test
+    public void getResultTest(){
+        scrutiniy.getScrutinyResults();
+    }
+
 }
