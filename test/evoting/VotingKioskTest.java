@@ -46,8 +46,11 @@ public class VotingKioskTest {
     public void proceduralExceptionTest () {
 
         votingKiosk.setManualStepCounter(-1);
+        votingKiosk.setBiometricStepCounter(-1);
 
-        ProceduralException exception = assertThrows(ProceduralException.class, votingKiosk::initVoting);
+        ProceduralException exception = assertThrows(ProceduralException.class, () -> {
+            votingKiosk.initVoting();
+        });
         assertEquals("InitVoting doesn't belong to the actual step", exception.getMessage());
 
         exception = assertThrows(ProceduralException.class, () -> {
