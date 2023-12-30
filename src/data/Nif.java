@@ -29,6 +29,9 @@ final public class Nif {
         return voterNif.equals(nif.voterNif);
     }
 
+    @Override
+    public int hashCode () { return voterNif.hashCode(); }
+
 
     private boolean validNifFormat(String nif) {
         return nif.matches("\\d{8}[A-Za-z]");

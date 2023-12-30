@@ -14,11 +14,11 @@ public class ElectoralOrganismImpl implements ElectoralOrganism{
     private final HashMap<Nif, Boolean> electoralCollege = new HashMap<>(){
         {
             try {
-                put(new Nif("11111111A"), true);
+                put(new Nif("11111111A"), false);
 
                 put(new Nif("22222222B"), false);
 
-                put(new Nif("33333333C"), false);
+                put(new Nif("33333333C"), true);
 
                 put(new Nif("44444444D"), false);
 
@@ -30,8 +30,18 @@ public class ElectoralOrganismImpl implements ElectoralOrganism{
         }
     };
 
+    private boolean containsKey(Nif nif) {
+        for (Nif collegeNif : electoralCollege.keySet()){
+            if (nif.equals(collegeNif)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void canVote(Nif nif) throws NotEnabledException, ConnectException {
-        if (electoralCollege.containsKey(nif)){
+        if (containsKey(nif)){
             if (!electoralCollege.get(nif)) {
                 throw new NotEnabledException("Voter has already voted");
             }
@@ -39,7 +49,7 @@ public class ElectoralOrganismImpl implements ElectoralOrganism{
             throw new NotEnabledException("Nif is not on the electoral college");
         }
     }
-    
+
     public void disableVoter(Nif nif) throws ConnectException{
         electoralCollege.put(nif, false);
     }
