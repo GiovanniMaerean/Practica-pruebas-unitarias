@@ -245,5 +245,7 @@ public class VotingKiosk {
     public void setHumanBiometricScanner(HumanBiometricScanner humanBiometricScanner) {this.humanBiometricScanner = humanBiometricScanner;}
 
     public void setPassportBiometricReader(PassportBiometricReader passportBiometricReader) {this.passportBiometricReader = passportBiometricReader;}
-
+    public int getBiometricStepCounter(){
+        return biometricStepCounter;
+    }
 }

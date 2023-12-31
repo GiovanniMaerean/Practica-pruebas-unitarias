@@ -425,4 +425,14 @@ public class VotingKioskTest {
         });
         assertEquals("Human biometric data doesn't match with passport biometric data", exception.getMessage());
     }
+    @Test
+    public void verifiyBiometricDataCorrectTest() throws ProceduralException, BiometricVerificationFailedException{
+        byte[] facialData = {5,15,25,35};
+        byte[] fingerData = {10,20,30,40};
+        BiometricData passportData = new BiometricData(new SingleBiometricData(facialData), new SingleBiometricData(fingerData));
+        BiometricData humanData = new BiometricData(new SingleBiometricData(facialData), new SingleBiometricData(fingerData));
+        votingKiosk.setBiometricStepCounter(6);
+        votingKiosk.verifiyBiometricData(passportData, humanData);
+        assertEquals(7, votingKiosk.getBiometricStepCounter());
+    }
 }
