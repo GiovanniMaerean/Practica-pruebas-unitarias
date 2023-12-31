@@ -45,6 +45,12 @@ public class VotingKioskTest {
             throw new NotValidPassportException("Not valid passport");
         }
     }
+    public static class ErrorGetPassportBiometricReader extends PassportBiometricReaderImpl {
+        @Override
+        public BiometricData getPassportBiometricData () throws PassportBiometricReadingException {
+            throw new PassportBiometricReadingException("Something went wrong while reading passport's biometric data");
+        }
+    }
 
     @BeforeEach
     public void crearVotingKiosk(){
@@ -464,6 +470,17 @@ public class VotingKioskTest {
             votingKiosk.readPassport();
         });
         assertEquals("Not valid passport", exception.getMessage());
+
+    }
+    @Test
+    public void readPassportGetPassportBiomDataCorrectTest(){
+        votingKiosk.setBiometricStepCounter(3);
+        ErrorGetPassportBiometricReader errorGetPassportBiometricReader = new ErrorGetPassportBiometricReader();
+        votingKiosk.setPassportBiometricReader(errorGetPassportBiometricReader);
+        Exception exception = assertThrows(PassportBiometricReadingException.class, () -> {
+            votingKiosk.readPassport();
+        });
+        assertEquals("Something went wrong while reading passport's biometric data", exception.getMessage());
 
     }
 }
