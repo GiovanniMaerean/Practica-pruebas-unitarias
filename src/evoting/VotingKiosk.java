@@ -242,5 +242,8 @@ public class VotingKiosk {
 
     public void setScrutiny(Scrutiny scrutiny) {this.scrutiny = scrutiny;}
 
+    public void setHumanBiometricScanner(HumanBiometricScanner humanBiometricScanner) {this.humanBiometricScanner = humanBiometricScanner;}
+
+    public void setPassportBiometricReader(PassportBiometricReader passportBiometricReader) {this.passportBiometricReader = passportBiometricReader;}
 
 }
