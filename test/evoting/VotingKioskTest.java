@@ -441,4 +441,10 @@ public class VotingKioskTest {
         votingKiosk.grantExplicitConsent('Y');
         assertEquals(3, votingKiosk.getBiometricStepCounter());
     }
+    @Test
+    public void grantExplicitConsentDenniedTest() throws ProceduralException{
+        votingKiosk.setBiometricStepCounter(2);
+        votingKiosk.grantExplicitConsent('N');
+        assertEquals(2, votingKiosk.getBiometricStepCounter());
+    }
 }
