@@ -1,5 +1,6 @@
 package evoting;
 
+import evoting.biometricdataperipheral.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import exception.*;
@@ -35,6 +36,13 @@ public class VotingKioskTest {
         @Override
         public void disableVoter(Nif nif) throws ConnectException {
             throw new ConnectException("There is no connection");
+        }
+    }
+    public static class InvalidPassportBiometricReader extends PassportBiometricReaderImpl {
+
+        @Override
+        public void validatePassport () throws NotValidPassportException{
+            throw new NotValidPassportException("Not valid passport");
         }
     }
 
@@ -446,5 +454,16 @@ public class VotingKioskTest {
         votingKiosk.setBiometricStepCounter(2);
         votingKiosk.grantExplicitConsent('N');
         assertEquals(2, votingKiosk.getBiometricStepCounter());
+    }
+    @Test
+    public void readPassportValidatePassportFailsTest(){
+        votingKiosk.setBiometricStepCounter(3);
+        InvalidPassportBiometricReader invalidPassportBiometricReader = new InvalidPassportBiometricReader();
+        votingKiosk.setPassportBiometricReader(invalidPassportBiometricReader);
+        Exception exception = assertThrows(NotValidPassportException.class, () -> {
+            votingKiosk.readPassport();
+        });
+        assertEquals("Not valid passport", exception.getMessage());
+
     }
 }
