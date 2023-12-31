@@ -505,4 +505,15 @@ public class VotingKioskTest {
         assertEquals("Something went wrong while scanning face biometrics", exception.getMessage());
 
     }
+    @Test
+    public void readFingerBiometricsFailsTest(){
+        votingKiosk.setBiometricStepCounter(5);
+        NotHumanBiometricScanner notHumanBiometricScanner = new NotHumanBiometricScanner();
+        votingKiosk.setHumanBiometricScanner(notHumanBiometricScanner);
+        Exception exception = assertThrows(HumanBiometricScanningException.class, () -> {
+            votingKiosk.readFingerPrintBiometrics();
+        });
+        assertEquals("Something went wrong while scanning finger biometrics", exception.getMessage());
+
+    }
 }
