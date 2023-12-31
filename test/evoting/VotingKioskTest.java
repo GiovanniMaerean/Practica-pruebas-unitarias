@@ -412,5 +412,17 @@ public class VotingKioskTest {
         });
         assertEquals("ConfirmVotingOption doesn't belong to the actual step", exception.getMessage());
     }
-
+    @Test
+    public void verifiyBiometricDataFiledTest(){
+        byte[] facialData = {5,15,25,35};
+        byte[] fingerData = {10,20,30,40};
+        byte[] facialData2 = {45,35,29,100};
+        BiometricData passportData = new BiometricData(new SingleBiometricData(facialData), new SingleBiometricData(fingerData));
+        BiometricData humanData = new BiometricData(new SingleBiometricData(facialData2), new SingleBiometricData(fingerData));
+        votingKiosk.setBiometricStepCounter(6);
+        Exception exception = assertThrows(BiometricVerificationFailedException.class, () -> {
+            votingKiosk.verifiyBiometricData(passportData, humanData);
+        });
+        assertEquals("Human biometric data doesn't match with passport biometric data", exception.getMessage());
+    }
 }
