@@ -51,6 +51,17 @@ public class VotingKioskTest {
             throw new PassportBiometricReadingException("Something went wrong while reading passport's biometric data");
         }
     }
+    public static class NotHumanBiometricScanner extends HumanBiometricScannerImpl {
+        @Override
+        public SingleBiometricData scanFaceBiometrics () throws HumanBiometricScanningException{
+            throw new HumanBiometricScanningException("Something went wrong while scanning face biometrics");
+        }
+
+        @Override
+        public SingleBiometricData scanFingerprintBiometrics () throws HumanBiometricScanningException{
+            throw new HumanBiometricScanningException("Something went wrong while scanning finger biometrics");
+        }
+    }
 
     @BeforeEach
     public void crearVotingKiosk(){
@@ -481,6 +492,17 @@ public class VotingKioskTest {
             votingKiosk.readPassport();
         });
         assertEquals("Something went wrong while reading passport's biometric data", exception.getMessage());
+
+    }
+    @Test
+    public void readFaceBiometricsFailsTest(){
+        votingKiosk.setBiometricStepCounter(4);
+        NotHumanBiometricScanner notHumanBiometricScanner = new NotHumanBiometricScanner();
+        votingKiosk.setHumanBiometricScanner(notHumanBiometricScanner);
+        Exception exception = assertThrows(HumanBiometricScanningException.class, () -> {
+            votingKiosk.readFaceBiometrics();
+        });
+        assertEquals("Something went wrong while scanning face biometrics", exception.getMessage());
 
     }
 }
