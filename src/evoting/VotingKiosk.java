@@ -164,7 +164,7 @@ public class VotingKiosk {
 
             biometricStepCounter++;
             removeBiometricData();
-            
+
             if (!verificationSucceeded) {
                 throw new BiometricVerificationFailedException("Human biometric data doesn't match with passport biometric data");
             } else {
@@ -189,13 +189,12 @@ public class VotingKiosk {
         explicitConsent = cons;
         if (biometricStepCounter == 2) {
             if (cons == 'Y') {
-                //manual
+                //Consent granted
                 System.out.println("Consent granted");
                 biometricStepCounter++;
             } else if (cons == 'N') {
-                //biometrico
+                //Consent not granted
                 System.out.println("Consent not granted");
-                //manualStepCounter++;
             }
         } else {
             throw new ProceduralException("GrantExplicitConsent doesn't belong to the actual step");

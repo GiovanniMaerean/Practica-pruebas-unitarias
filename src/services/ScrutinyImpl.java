@@ -7,22 +7,20 @@ import java.util.List;
 public class ScrutinyImpl implements Scrutiny{
     private HashMap<VotingOption, Integer> parties = new HashMap() {
         {
-            put(new VotingOption("PartyA"), 4);
-            put(new VotingOption("PartyB"), 5);
-            put(new VotingOption("PartyC"), 2);
-            put(new VotingOption("PartyD"), 8);
-            put(new VotingOption("PartyE"), 6);
+            put(new VotingOption("PartyA"), 0);
+            put(new VotingOption("PartyB"), 0);
+            put(new VotingOption("PartyC"), 0);
+            put(new VotingOption("PartyD"), 0);
+            put(new VotingOption("PartyE"), 0);
         }
 
     };
-    private int totalVotes = 25;
-    private int nullVotes = 1;
-    private int blankVotes = 3;
+    private int totalVotes = 0;
+    private int nullVotes = 0;
+    private int blankVotes = 0;
 
     public void initVoteCount (List<VotingOption> validParties){
-        totalVotes = 0;
-        nullVotes = 0;
-        blankVotes = 0;
+
         parties = new HashMap<VotingOption, Integer>();
         for (VotingOption vOpt : validParties){
             parties.put(vOpt, 0);

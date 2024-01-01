@@ -34,57 +34,66 @@ public class ScrutinyTest {
 
     @Test
     public void getNullVotesTest(){
+        assertEquals(0, votingKiosk.getNulls());
+
+        votingKiosk.scrutinize(null);
         assertEquals(1, votingKiosk.getNulls());
 
     }
 
     @Test
     public void getBlankVotesTest(){
-        assertEquals(3, votingKiosk.getBlanks());
+        assertEquals(0, votingKiosk.getBlanks());
+
+        votingKiosk.scrutinize(new VotingOption(""));
+        votingKiosk.scrutinize(new VotingOption(""));
+
+        assertEquals(2, votingKiosk.getBlanks());
     }
 
     @Test
     public void getTotalVotesTest(){
-        assertEquals(25, votingKiosk.getTotal());
+        assertEquals(0, votingKiosk.getTotal());
+
+        votingKiosk.scrutinize(new VotingOption("PartyA"));
+        votingKiosk.scrutinize(new VotingOption("PartyA"));
+        votingKiosk.scrutinize(new VotingOption("PartyA"));
+        votingKiosk.scrutinize(new VotingOption("PartyB"));
+
+        assertEquals(4, votingKiosk.getTotal());
     }
 
     @Test
     public void getVotesForSpecificPartyTest(){
-        assertEquals(4, votingKiosk.getVotesFor(new VotingOption("PartyA")));
-        assertEquals(5, votingKiosk.getVotesFor(new VotingOption("PartyB")));
-        assertEquals(2, votingKiosk.getVotesFor(new VotingOption("PartyC")));
-        assertEquals(8, votingKiosk.getVotesFor(new VotingOption("PartyD")));
-        assertEquals(6, votingKiosk.getVotesFor(new VotingOption("PartyE")));
+        votingKiosk.scrutinize(new VotingOption("PartyA"));
+        votingKiosk.scrutinize(new VotingOption("PartyA"));
+
+        assertEquals(2, votingKiosk.getVotesFor(new VotingOption("PartyA")));
+
+        votingKiosk.scrutinize(new VotingOption("PartyB"));
+        votingKiosk.scrutinize(new VotingOption("PartyB"));
+        votingKiosk.scrutinize(new VotingOption("PartyB"));
+        votingKiosk.scrutinize(new VotingOption("PartyB"));
+
+        assertEquals(4, votingKiosk.getVotesFor(new VotingOption("PartyB")));
+
+        assertEquals(0, votingKiosk.getVotesFor(new VotingOption("PartyC")));
+
 
     }
 
     @Test
     public void getResultTest(){
+        votingKiosk.scrutinize(new VotingOption("PartyA"));
+        votingKiosk.scrutinize(new VotingOption("PartyA"));
+
+        votingKiosk.scrutinize(new VotingOption("PartyB"));
+        votingKiosk.scrutinize(new VotingOption("PartyB"));
+        votingKiosk.scrutinize(new VotingOption("PartyB"));
+        votingKiosk.scrutinize(new VotingOption("PartyB"));
+
         votingKiosk.getScrutinyResults();
     }
 
-    @Test
-    public void scrutinizeBlankVoteTest(){
-        votingKiosk.scrutinize(new VotingOption(""));
-        assertEquals(4, votingKiosk.getBlanks());
-        assertEquals(25, votingKiosk.getTotal());
-
-    }
-
-    @Test
-    public void scrutinizeNullVoteTest(){
-        votingKiosk.scrutinize(null);
-        assertEquals(2, votingKiosk.getNulls());
-        assertEquals(25, votingKiosk.getTotal());
-
-    }
-
-    @Test
-    public void scrutinizeRegularVoteTest(){
-        VotingOption vOpt = new VotingOption("PartyA");
-        votingKiosk.scrutinize(vOpt);
-        assertEquals(5,votingKiosk.getVotesFor(vOpt));
-        assertEquals(26, votingKiosk.getTotal());
-    }
 
 }

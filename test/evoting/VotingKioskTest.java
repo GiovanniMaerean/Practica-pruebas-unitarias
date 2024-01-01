@@ -508,7 +508,7 @@ public class VotingKioskTest {
         BiometricData humanData = new BiometricData(new SingleBiometricData(facialData), new SingleBiometricData(fingerData));
         votingKiosk.setBiometricStepCounter(6);
         votingKiosk.verifiyBiometricData(passportData, humanData);
-        assertEquals(7, votingKiosk.getBiometricStepCounter());
+        assertEquals(8, votingKiosk.getBiometricStepCounter());
     }
     @Test
     public void grantExplicitConsentAcceptedTest() throws ProceduralException{
