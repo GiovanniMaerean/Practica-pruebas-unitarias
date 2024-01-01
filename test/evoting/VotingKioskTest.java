@@ -68,7 +68,7 @@ public class VotingKioskTest {
         votingKiosk = new VotingKiosk();
     }
     @Test
-    public void proceduralExceptionTest () {
+    public void initVotingProceduralExceptionTest () {
 
         votingKiosk.setManualStepCounter(-1);
         votingKiosk.setBiometricStepCounter(-1);
@@ -78,48 +78,98 @@ public class VotingKioskTest {
         });
         assertEquals("InitVoting doesn't belong to the actual step", exception.getMessage());
 
-        exception = assertThrows(ProceduralException.class, () -> {
+    }
+
+
+    @Test
+    public void setDocumentProceduralExceptionTest () {
+        votingKiosk.setManualStepCounter(-1);
+        votingKiosk.setBiometricStepCounter(-1);
+
+        ProceduralException exception = assertThrows(ProceduralException.class, () -> {
             votingKiosk.setDocument('N');
         });
         assertEquals("SetDocument doesn't belong to the actual step", exception.getMessage());
 
+    }
 
-        exception = assertThrows(ProceduralException.class, () -> {
+
+    @Test
+    public void enterAccountProceduralExceptionTest() {
+        votingKiosk.setManualStepCounter(-1);
+        votingKiosk.setBiometricStepCounter(-1);
+
+        ProceduralException exception = assertThrows(ProceduralException.class, () -> {
             votingKiosk.enterAccount("Fernando", new Password("1234"));
         });
         assertEquals("EnterAccount doesn't belong to the actual step", exception.getMessage());
+    }
 
+    @Test
+    public void confirmIdentifProceduralException(){
+        votingKiosk.setManualStepCounter(-1);
+        votingKiosk.setBiometricStepCounter(-1);
 
-        exception = assertThrows(ProceduralException.class, () -> {
+        ProceduralException exception = assertThrows(ProceduralException.class, () -> {
             votingKiosk.confirmIdentif('Y');
         });
         assertEquals("ConfirmIdentif doesn't belong to the actual step", exception.getMessage());
+    }
 
+    @Test
+    public void enterNifProceduralException(){
+        votingKiosk.setManualStepCounter(-1);
+        votingKiosk.setBiometricStepCounter(-1);
 
-        exception = assertThrows(ProceduralException.class, () -> {
+        ProceduralException exception = assertThrows(ProceduralException.class, () -> {
             votingKiosk.enterNif(new Nif("12345678B"));
         });
         assertEquals("EnterNif doesn't belong to the actual step", exception.getMessage());
+    }
 
 
-        exception = assertThrows(ProceduralException.class, votingKiosk::initOptionsNavigation);
+    @Test
+    public void initOptionsNavProceduralExceptionTest(){
+        votingKiosk.setManualStepCounter(-1);
+        votingKiosk.setBiometricStepCounter(-1);
+
+        ProceduralException exception = assertThrows(ProceduralException.class, votingKiosk::initOptionsNavigation);
         assertEquals("InitOptionsNavigation doesn't belong to the actual step", exception.getMessage());
+    }
 
+    @Test
+    public void consultVoptProceduralExceptionTest (){
+        votingKiosk.setManualStepCounter(-1);
+        votingKiosk.setBiometricStepCounter(-1);
 
-        exception = assertThrows(ProceduralException.class, () -> {
+        ProceduralException exception = assertThrows(ProceduralException.class, () -> {
             votingKiosk.consultVotingOption(new VotingOption(""));
         });
         assertEquals("ConsultVotingOption doesn't belong to the actual step", exception.getMessage());
+    }
 
+    @Test
+    public void voteProceduralExceptionTest() {
+        votingKiosk.setManualStepCounter(-1);
+        votingKiosk.setBiometricStepCounter(-1);
 
-        exception = assertThrows(ProceduralException.class, votingKiosk::vote);
+        ProceduralException exception = assertThrows(ProceduralException.class, votingKiosk::vote);
         assertEquals("Vote doesn't belong to the actual step", exception.getMessage());
+    }
 
-        exception = assertThrows(ProceduralException.class, () -> {
+    @Test
+    public void confVotingOptProceduralExceptionTest(){
+        votingKiosk.setManualStepCounter(-1);
+        votingKiosk.setBiometricStepCounter(-1);
+
+        ProceduralException exception = assertThrows(ProceduralException.class, () -> {
             votingKiosk.confirmVotingOption('Y');
         });
         assertEquals("ConfirmVotingOption doesn't belong to the actual step", exception.getMessage());
     }
+
+
+
     @Test
     public void checkCorrectOptionForDocumentDNI() throws ProceduralException{
 
