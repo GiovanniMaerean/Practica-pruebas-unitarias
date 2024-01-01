@@ -162,11 +162,13 @@ public class VotingKiosk {
         if (biometricStepCounter == 6) {
             boolean verificationSucceeded = humanBioD.equals(passpBioD);
 
+            biometricStepCounter++;
+            removeBiometricData();
+            
             if (!verificationSucceeded) {
                 throw new BiometricVerificationFailedException("Human biometric data doesn't match with passport biometric data");
             } else {
                 System.out.println("Biometric data verification succeeded");
-                biometricStepCounter++;
             }
         } else {
             throw new ProceduralException("VerifiyBiometricData doesn't belong to the actual step");
