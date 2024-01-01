@@ -5,6 +5,8 @@ import evoting.biometricdataperipheral.PassportBiometricReader;
 import exception.*;
 import services.*;
 
+import java.util.List;
+
 /**
  * Internal classes involved in the exercise of the vote
  */
@@ -52,7 +54,8 @@ public class VotingKiosk {
                 manualStepCounter++;
             } else if (opt == 'P') {
                 //biometrico
-                biometricStepCounter++;            }
+                biometricStepCounter++;
+            }
         } else {
             throw new ProceduralException("SetDocument doesn't belong to the actual step");
         }
@@ -134,7 +137,7 @@ public class VotingKiosk {
         if (manualStepCounter == 8 || biometricStepCounter == 11) {
             if(conf == 'Y'){
                 System.out.println("Voting option: "+ this.vopt + " .Confirmed");
-                scrutiny.scrutinize(vopt);
+                scrutinize(vopt);
                 electoralOrganism.disableVoter(nif);
                 manualStepCounter++;
                 biometricStepCounter++;
@@ -248,4 +251,18 @@ public class VotingKiosk {
     public int getBiometricStepCounter(){
         return biometricStepCounter;
     }
+
+
+    void initVoteCount (List<VotingOption> validParties){scrutiny.initVoteCount(validParties);}
+
+    void scrutinize(VotingOption vopt) {scrutiny.scrutinize(vopt);}
+    public int getVotesFor(VotingOption vopt) {return scrutiny.getVotesFor(vopt);}
+
+    int getTotal (){return scrutiny.getTotal();}
+
+    int getNulls (){return scrutiny.getNulls();}
+
+    int getBlanks (){return scrutiny.getBlanks();}
+
+    void getScrutinyResults (){scrutiny.getScrutinyResults();}
 }
