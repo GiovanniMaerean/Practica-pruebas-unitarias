@@ -64,7 +64,7 @@ public class VotingKioskTest {
     }
 
     @BeforeEach
-    public void crearVotingKiosk(){
+    public void createVotingKiosk(){
         votingKiosk = new VotingKiosk();
     }
     @Test
@@ -501,9 +501,13 @@ public class VotingKioskTest {
         assertEquals("Human biometric data doesn't match with passport biometric data", exception.getMessage());
     }
     @Test
-    public void verifiyBiometricDataCorrectTest() throws ProceduralException, BiometricVerificationFailedException{
+    public void verifiyBiometricDataCorrectTest() throws ProceduralException, BiometricVerificationFailedException, NotEnabledException, ConnectException, NifFormatException {
         byte[] facialData = {5,15,25,35};
         byte[] fingerData = {10,20,30,40};
+        ElectoralOrganismImpl electoralOrganism = new ElectoralOrganismImpl();
+        votingKiosk.setElectoralOrganism(electoralOrganism);
+        votingKiosk.setNif(new Nif("33333333C"));
+
         BiometricData passportData = new BiometricData(new SingleBiometricData(facialData), new SingleBiometricData(fingerData));
         BiometricData humanData = new BiometricData(new SingleBiometricData(facialData), new SingleBiometricData(fingerData));
         votingKiosk.setBiometricStepCounter(6);
@@ -527,7 +531,7 @@ public class VotingKioskTest {
         votingKiosk.setBiometricStepCounter(3);
         InvalidPassportBiometricReader invalidPassportBiometricReader = new InvalidPassportBiometricReader();
         votingKiosk.setPassportBiometricReader(invalidPassportBiometricReader);
-        Exception exception = assertThrows(NotValidPassportException.class, () -> {
+        NotValidPassportException exception = assertThrows(NotValidPassportException.class, () -> {
             votingKiosk.readPassport();
         });
         assertEquals("Not valid passport", exception.getMessage());
@@ -538,7 +542,7 @@ public class VotingKioskTest {
         votingKiosk.setBiometricStepCounter(3);
         ErrorGetPassportBiometricReader errorGetPassportBiometricReader = new ErrorGetPassportBiometricReader();
         votingKiosk.setPassportBiometricReader(errorGetPassportBiometricReader);
-        Exception exception = assertThrows(PassportBiometricReadingException.class, () -> {
+        PassportBiometricReadingException exception = assertThrows(PassportBiometricReadingException.class, () -> {
             votingKiosk.readPassport();
         });
         assertEquals("Something went wrong while reading passport's biometric data", exception.getMessage());
@@ -549,7 +553,7 @@ public class VotingKioskTest {
         votingKiosk.setBiometricStepCounter(4);
         NotHumanBiometricScanner notHumanBiometricScanner = new NotHumanBiometricScanner();
         votingKiosk.setHumanBiometricScanner(notHumanBiometricScanner);
-        Exception exception = assertThrows(HumanBiometricScanningException.class, () -> {
+        HumanBiometricScanningException exception = assertThrows(HumanBiometricScanningException.class, () -> {
             votingKiosk.readFaceBiometrics();
         });
         assertEquals("Something went wrong while scanning face biometrics", exception.getMessage());
@@ -560,7 +564,7 @@ public class VotingKioskTest {
         votingKiosk.setBiometricStepCounter(5);
         NotHumanBiometricScanner notHumanBiometricScanner = new NotHumanBiometricScanner();
         votingKiosk.setHumanBiometricScanner(notHumanBiometricScanner);
-        Exception exception = assertThrows(HumanBiometricScanningException.class, () -> {
+        HumanBiometricScanningException exception = assertThrows(HumanBiometricScanningException.class, () -> {
             votingKiosk.readFingerPrintBiometrics();
         });
         assertEquals("Something went wrong while scanning finger biometrics", exception.getMessage());

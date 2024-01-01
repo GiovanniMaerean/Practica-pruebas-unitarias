@@ -18,9 +18,9 @@ public class VotingKiosk {
     ElectoralOrganism electoralOrganism;
     Scrutiny scrutiny;
     private char document;
+    private Nif nif;
     private String user;
     private Password password;
-    private Nif nif;
     private VotingOption vopt;
     private char explicitConsent;
 
@@ -158,7 +158,7 @@ public class VotingKiosk {
     }
 
 
-    public void verifiyBiometricData(BiometricData humanBioD, BiometricData passpBioD) throws BiometricVerificationFailedException, ProceduralException {
+    public void verifiyBiometricData(BiometricData humanBioD, BiometricData passpBioD) throws BiometricVerificationFailedException, ProceduralException, NotEnabledException, ConnectException {
         if (biometricStepCounter == 6) {
             boolean verificationSucceeded = humanBioD.equals(passpBioD);
 
@@ -169,6 +169,8 @@ public class VotingKiosk {
                 throw new BiometricVerificationFailedException("Human biometric data doesn't match with passport biometric data");
             } else {
                 System.out.println("Biometric data verification succeeded");
+                electoralOrganism.canVote(nif);
+                System.out.println("Voting rights ok");
             }
         } else {
             throw new ProceduralException("VerifiyBiometricData doesn't belong to the actual step");
@@ -204,8 +206,8 @@ public class VotingKiosk {
     public void readPassport () throws NotValidPassportException, PassportBiometricReadingException, ProceduralException {
         if (biometricStepCounter == 3) {
             passportBiometricReader.validatePassport();
-            passportBiometricReader.getPassportBiometricData();
-            Nif voterNif = passportBiometricReader.getNifWithOCR();
+            passportData = passportBiometricReader.getPassportBiometricData();
+            nif = passportBiometricReader.getNifWithOCR();
 
             biometricStepCounter++;
         } else {
@@ -234,6 +236,7 @@ public class VotingKiosk {
     // Setter methods for injecting dependences and additional methods
 
 
+    public void setNif(Nif nif) {this.nif = nif;}
     public void setManualStepCounter(int num){this.manualStepCounter = num;}
     public void setBiometricStepCounter(int num){this.biometricStepCounter = num;}
 
